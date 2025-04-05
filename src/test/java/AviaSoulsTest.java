@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.Comparator;
 
 public class AviaSoulsTest {
@@ -42,5 +44,17 @@ public class AviaSoulsTest {
         assertEquals(2, result[0].getTimeTo() - result[0].getTimeFrom());
         assertEquals(3, result[1].getTimeTo() - result[1].getTimeFrom());
         assertEquals(4, result[2].getTimeTo() - result[2].getTimeFrom());
+    }
+
+    @Test
+    public void testSearchSortedByPriceWithSamePrices() {
+        AviaSouls manager = new AviaSouls();
+        Ticket ticket1 = new Ticket("DME", "LED", 5000, 10, 12);
+        Ticket ticket2 = new Ticket("DME", "LED", 5000, 14, 16);
+        manager.add(ticket1);
+        manager.add(ticket2);
+
+        Ticket[] result = manager.search("DME", "LED");
+        assertArrayEquals(new Ticket[]{ticket1, ticket2}, result);
     }
 }
