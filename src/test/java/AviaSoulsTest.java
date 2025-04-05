@@ -15,14 +15,18 @@ public class AviaSoulsTest {
     @Test
     public void testSearchSortByPrice() {
         AviaSouls manager = new AviaSouls();
-        manager.add(new Ticket("DME", "LED", 7000, 10, 12));
-        manager.add(new Ticket("DME", "LED", 5000, 14, 16));
-        manager.add(new Ticket("DME", "LED", 6000, 18, 20));
+        Ticket t1 = new Ticket("DME", "LED", 7000, 10, 12);
+        Ticket t2 = new Ticket("DME", "LED", 5000, 14, 16);
+        Ticket t3 = new Ticket("DME", "LED", 6000, 18, 20);
+
+        manager.add(t1);
+        manager.add(t2);
+        manager.add(t3);
 
         Ticket[] result = manager.search("DME", "LED");
-        assertEquals(5000, result[0].getPrice());
-        assertEquals(6000, result[1].getPrice());
-        assertEquals(7000, result[2].getPrice());
+        Ticket[] expected = {t2, t3, t1}; // Ожидаемый порядок по цене
+
+        assertArrayEquals(expected, result);
     }
 
     @Test
@@ -36,14 +40,18 @@ public class AviaSoulsTest {
     @Test
     public void testSearchAndSortByTime() {
         AviaSouls manager = new AviaSouls();
-        manager.add(new Ticket("DME", "LED", 7000, 10, 14)); // 4 часа
-        manager.add(new Ticket("DME", "LED", 5000, 10, 12)); // 2 часа
-        manager.add(new Ticket("DME", "LED", 6000, 10, 13)); // 3 часа
+        Ticket t1 = new Ticket("DME", "LED", 7000, 10, 14); // 4 часа
+        Ticket t2 = new Ticket("DME", "LED", 5000, 10, 12); // 2 часа
+        Ticket t3 = new Ticket("DME", "LED", 6000, 10, 13); // 3 часа
+
+        manager.add(t1);
+        manager.add(t2);
+        manager.add(t3);
 
         Ticket[] result = manager.searchAndSortBy("DME", "LED", new TicketTimeComparator());
-        assertEquals(2, result[0].getTimeTo() - result[0].getTimeFrom());
-        assertEquals(3, result[1].getTimeTo() - result[1].getTimeFrom());
-        assertEquals(4, result[2].getTimeTo() - result[2].getTimeFrom());
+        Ticket[] expected = {t2, t3, t1}; // Ожидаемый порядок по времени
+
+        assertArrayEquals(expected, result);
     }
 
     @Test
